@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from analizador import Analizador
 
 
 class App:
