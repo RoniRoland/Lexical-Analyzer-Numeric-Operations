@@ -4,7 +4,7 @@ from analizador import Analizador
 
 
 class App:
-    ANCHO = 589
+    ANCHO = 710
     ALTO = 1189
 
     def __init__(self):
@@ -103,6 +103,20 @@ class App:
         )
         self.boton_errores.pack(side="top", pady=25)
 
+        self.boton_reporte = tk.Button(
+            self.marco_archivo,
+            text="Reporte",
+            font=("Roboto Medium", 11),
+            bg="#0059b3",
+            activebackground="#0059b3",
+            foreground="white",
+            activeforeground="white",
+            width=15,
+            height=1,
+            command=self.reporte,
+        )
+        self.boton_reporte.pack(side="top", pady=25)
+
         self.boton_salir = tk.Button(
             self.marco_archivo,
             text="Salir",
@@ -194,6 +208,10 @@ class App:
 
     def errores(self):
         # Aquí iría el código para la opción "Errores"
+        pass
+
+    def reporte(self):
+        # Aquí iría el código para la opción "reportes"
         pass
 
     def salir(self):
