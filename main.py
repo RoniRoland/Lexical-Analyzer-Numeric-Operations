@@ -198,6 +198,23 @@ class App:
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
 
+    def errores(self):
+        global lineas
+        lineas = ""
+        if self.file_path:
+            with open(self.file_path, "r") as archivo:
+                for i in archivo.readlines():
+                    lineas += i
+            self.text_area.delete("1.0", tk.END)  # limpia el área de texto
+            self.text_area.insert(tk.END, lineas)
+
+            # Ahora, puedes crear una instancia de Analizador con el contenido del archivo
+            lexer = Analizador(lineas)
+            lexer.analizar()
+
+            # Limpia el área de texto antes de mostrar los resultados
+            self.text_area.delete("1.0", tk.END)
+
             # Muestra los errores en el área de texto
             self.text_area.insert(
                 tk.END,
@@ -206,9 +223,66 @@ class App:
             for error in lexer.errores:
                 self.text_area.insert(tk.END, str(error) + "\n")
 
-    def errores(self):
-        # Aquí iría el código para la opción "Errores"
-        pass
+            # Construye la estructura de errores como un diccionario
+            errores_dict = {
+                "errores": [
+                    {
+                        "No": idx + 1,
+                        "descripcion": {
+                            "lexema": error.lexema,
+                            "tipo": error.tipo,
+                            "columna": error.columna,
+                            "fila": error.fila,
+                        },
+                    }
+                    for idx, error in enumerate(lexer.errores)
+                ]
+            }
+
+            # Convierte la estructura de errores a una cadena JSON manualmente
+            errores_json_str = "{\n"
+            errores_json_str += '    "errores": [\n'
+            for i, error in enumerate(errores_dict["errores"]):
+                errores_json_str += "        {\n"
+                errores_json_str += f'            "No": {error["No"]},\n'
+                errores_json_str += '            "descripcion": {\n'
+                errores_json_str += (
+                    f'                "lexema": "{error["descripcion"]["lexema"]}",\n'
+                )
+                errores_json_str += (
+                    f'                "tipo": "{error["descripcion"]["tipo"]}",\n'
+                )
+                errores_json_str += (
+                    f'                "columna": {error["descripcion"]["columna"]},\n'
+                )
+                errores_json_str += (
+                    f'                "fila": {error["descripcion"]["fila"]}\n'
+                )
+                errores_json_str += "            }\n"
+                errores_json_str += (
+                    "        }"
+                    if i == len(errores_dict["errores"]) - 1
+                    else "        },\n"
+                )
+            errores_json_str += "\n    ]\n}\n"
+
+            # Reemplaza las comillas simples por comillas dobles y ajusta el formato
+            errores_json_str = errores_json_str.replace("'", '"').replace(
+                "},", "},\n    "
+            )
+
+            # Crea un archivo llamado RESULTADOS.json y escribe los errores en él
+            with open("RESULTADOS.json", "w") as resultados_file:
+                resultados_file.write(errores_json_str)
+
+            # Muestra el contenido de RESULTADOS.json en el área de texto
+            self.text_area.insert(
+                tk.END,
+                "------------------------ RESULTADOS.JSON -----------------------\n",
+            )
+            with open("RESULTADOS.json", "r") as resultados_json_file:
+                resultados_json = resultados_json_file.read()
+            self.text_area.insert(tk.END, resultados_json)
 
     def reporte(self):
         # Aquí iría el código para la opción "reportes"
