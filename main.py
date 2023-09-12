@@ -160,7 +160,37 @@ class App:
             self.guardar()
 
     def analizar(self):
-        pass
+        global lineas
+        lineas = ""
+        if self.file_path:
+            with open(self.file_path, "r") as archivo:
+                for i in archivo.readlines():
+                    lineas += i
+            self.text_area.delete("1.0", tk.END)  # limpia el área de texto
+            self.text_area.insert(tk.END, lineas)
+
+            # Ahora, puedes crear una instancia de Analizador con el contenido del archivo
+            lexer = Analizador(lineas)
+            lexer.analizar()
+
+            # Limpia el área de texto antes de mostrar los resultados
+            self.text_area.delete("1.0", tk.END)
+
+            # Muestra los tokens en el área de texto
+            self.text_area.insert(
+                tk.END,
+                "--------------------------- Tokens ---------------------------\n",
+            )
+            for token in lexer.tokens_reconocidos:
+                self.text_area.insert(tk.END, str(token) + "\n")
+
+            # Muestra los errores en el área de texto
+            self.text_area.insert(
+                tk.END,
+                "--------------------------- Errores ---------------------------\n",
+            )
+            for error in lexer.errores:
+                self.text_area.insert(tk.END, str(error) + "\n")
 
     def errores(self):
         # Aquí iría el código para la opción "Errores"
