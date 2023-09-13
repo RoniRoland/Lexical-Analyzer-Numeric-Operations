@@ -111,6 +111,48 @@ class Analizador:
                     lexema = ""
                     estado = 0
 
+            elif estado == 4:
+                if caracter.isdigit():
+                    lexema += str(caracter)
+                    estado = 5
+                    estado_anterior = 4
+                else:
+                    # Error: se esperaba un dígito después del punto decimal
+                    self.errores.append(
+                        Error(caracter, "Léxico", columna - len(lexema), fila)
+                    )
+                    # Reinicio del lexema
+                    lexema = ""
+                    estado = 0
+
+            # Agregar el nuevo estado 5 para números decimales
+            elif estado == 5:
+                if caracter.isdigit():
+                    lexema += str(caracter)
+                else:
+                    # Es estado de aceptación para números decimales, se guarda como Decimal
+                    self.tokens_reconocidos.append(
+                        Token("Decimal", float(lexema), fila, columna - len(lexema))
+                    )
+                    lexema = ""
+                    if ascii == 9 or ascii == 10 or ascii == 32:
+                        pass
+                    elif self.isSimboloValido(ascii):
+                        lexema += caracter
+                        estado = 10
+                        estado_anterior = 0
+                    elif ascii == 34:
+                        lexema += caracter
+                        estado = 1
+                        estado_anterior = 0
+                    else:  # Error
+                        self.errores.append(
+                            Error(caracter, "Léxico", columna - len(lexema), fila)
+                        )
+                    # Reinicio del lexema
+                    lexema = ""
+                    estado = 0
+
             elif estado == 10:
                 if estado_anterior == 0 or estado_anterior == 2:
                     self.tokens_reconocidos.append(
