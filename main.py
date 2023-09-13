@@ -288,10 +288,6 @@ class App:
         # Aquí iría el código para la opción "reportes"
         pass
 
-    def reporte(self):
-        # Aquí iría el código para la opción "reportes"
-        pass
-
     def salir(self):
         # Cierra la ventana principal
         self.ventana_principal.destroy()
