@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from analizador import Analizador
+from tkinter import messagebox
 
 
 class App:
@@ -148,9 +149,13 @@ class App:
             # Abre el archivo y pega el texto en el area de texto
             for i in archivo.readlines():
                 lineas += i
-            print(lineas)
             self.text_area.delete("1.0", tk.END)  # limpia el area de texto
             self.text_area.insert(tk.END, lineas)
+
+            # Muestra el mensaje de archivo cargado exitosamente
+            messagebox.showinfo(
+                "Archivo Cargado", "El archivo se ha cargado exitosamente."
+            )
 
     def guardar(self):
         if self.file_path:
@@ -159,6 +164,17 @@ class App:
                 updated_text_data = self.text_area.get("1.0", tk.END)
                 # escribe el nuevo texto en el archivo
                 file.write(updated_text_data)
+
+            # Muestra el mensaje de guardado exitoso
+            messagebox.showinfo(
+                "Guardado Correctamente", "El archivo se ha guardado correctamente."
+            )
+        else:
+            # Muestra un mensaje de advertencia si no hay archivo abierto
+            messagebox.showwarning(
+                "Archivo no seleccionado",
+                "Por favor, abra un archivo antes de guardar.",
+            )
 
     def guardar_como(self):
         formatos = (
@@ -223,6 +239,13 @@ class App:
             for error in lexer.errores:
                 self.text_area.insert(tk.END, str(error) + "\n")
 
+            if not lexer.errores:
+                # Si no hay errores, mostrar un mensaje
+                messagebox.showinfo(
+                    "Sin Errores", "No se encontraron errores en el código."
+                )
+                return  # Salir de la función si no hay errores
+
             # Construye la estructura de errores como un diccionario
             errores_dict = {
                 "errores": [
@@ -283,6 +306,12 @@ class App:
             with open("RESULTADOS.json", "r") as resultados_json_file:
                 resultados_json = resultados_json_file.read()
             self.text_area.insert(tk.END, resultados_json)
+
+        else:
+            messagebox.showwarning(
+                "Archivo no seleccionado",
+                "Por favor, seleccione un archivo antes de continuar.",
+            )
 
     def reporte(self):
         # Aquí iría el código para la opción "reportes"
