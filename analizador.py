@@ -79,19 +79,18 @@ class Analizador:
                     estado = 0
 
             elif estado == 2:
-                if caracter.isdigit() or caracter == ".":
+                if caracter.isdigit():
                     lexema += str(caracter)
-                    estado = 2
+                    estado = 5
+                    estado_anterior = 2
+                elif caracter == ".":
+                    lexema += caracter
+                    estado = 4
                     estado_anterior = 2
                 else:  # Es estado de aceptación entonces se guarda token
-                    if "." in lexema:
-                        self.tokens_reconocidos.append(
-                            Token("Decimal", float(lexema), fila, columna - len(lexema))
-                        )
-                    else:
-                        self.tokens_reconocidos.append(
-                            Token("Entero", int(lexema), fila, columna - len(lexema))
-                        )
+                    self.tokens_reconocidos.append(
+                        Token("Entero", int(lexema), fila, columna - len(lexema))
+                    )
                     lexema = ""
                     if ascii == 9 or ascii == 10 or ascii == 32:
                         pass
