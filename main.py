@@ -213,6 +213,16 @@ class App:
             )
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
+            # Muestra el mensaje de análisis completado correctamente
+            messagebox.showinfo(
+                "Análisis Completado", "El análisis se ha completado correctamente."
+            )
+        else:
+            messagebox.showwarning(
+                "Archivo no cargado",
+                "Por favor, cargue un archivo antes de realizar el análisis.",
+            )
+            return  # Salir de la función si no hay archivo cargado
 
     def errores(self):
         global lineas
