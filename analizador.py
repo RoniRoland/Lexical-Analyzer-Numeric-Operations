@@ -81,20 +81,23 @@ class Analizador:
             elif estado == 2:
                 if caracter.isdigit():
                     lexema += str(caracter)
-                    estado = 5
+                    estado = 2
                     estado_anterior = 2
                 elif caracter == ".":
                     lexema += caracter
                     estado = 4
                     estado_anterior = 2
                 else:  # Es estado de aceptación entonces se guarda token
-                    self.tokens_reconocidos.append(
-                        Token("Entero", int(lexema), fila, columna - len(lexema))
-                    )
-                    lexema = ""
                     if ascii == 9 or ascii == 10 or ascii == 32:
+                        self.tokens_reconocidos.append(
+                            Token("Entero", int(lexema), fila, columna - len(lexema))
+                        )
                         pass
                     elif self.isSimboloValido(ascii):
+                        self.tokens_reconocidos.append(
+                            Token("Entero", int(lexema), fila, columna - len(lexema))
+                        )
+                        lexema = ""
                         lexema += caracter
                         estado = 10
                         estado_anterior = 0
@@ -113,30 +116,19 @@ class Analizador:
             elif estado == 4:
                 if caracter.isdigit():
                     lexema += str(caracter)
-                    estado = 5
+                    estado = 4
                     estado_anterior = 4
                 else:
-                    # Error: se esperaba un dígito después del punto decimal
-                    self.errores.append(
-                        Error(caracter, "Léxico", columna - len(lexema), fila)
-                    )
-                    # Reinicio del lexema
-                    lexema = ""
-                    estado = 0
-
-            # Agregar el nuevo estado 5 para números decimales
-            elif estado == 5:
-                if caracter.isdigit():
-                    lexema += str(caracter)
-                else:
-                    # Es estado de aceptación para números decimales, se guarda como Decimal
-                    self.tokens_reconocidos.append(
-                        Token("Decimal", float(lexema), fila, columna - len(lexema))
-                    )
-                    lexema = ""
                     if ascii == 9 or ascii == 10 or ascii == 32:
+                        self.tokens_reconocidos.append(
+                            Token("Decimal", float(lexema), fila, columna - len(lexema))
+                        )
                         pass
                     elif self.isSimboloValido(ascii):
+                        self.tokens_reconocidos.append(
+                            Token("Decimal", float(lexema), fila, columna - len(lexema))
+                        )
+                        lexema = ""
                         lexema += caracter
                         estado = 10
                         estado_anterior = 0
