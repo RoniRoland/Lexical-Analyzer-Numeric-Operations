@@ -39,7 +39,7 @@ class Analizador:
                     lexema += caracter
                     estado = 1
                     estado_anterior = 0
-                elif caracter.isdigit():
+                elif caracter.isdigit() or caracter == "-":
                     lexema += str(caracter)
                     estado = 2
                     estado_anterior = 0
@@ -88,16 +88,14 @@ class Analizador:
                     estado = 4
                     estado_anterior = 2
                 else:  # Es estado de aceptación entonces se guarda token
+                    self.tokens_reconocidos.append(
+                        Token("Entero", int(lexema), fila, columna - len(lexema))
+                    )
+                    lexema = ""
+                    estado = 0
                     if ascii == 9 or ascii == 10 or ascii == 32:
-                        self.tokens_reconocidos.append(
-                            Token("Entero", int(lexema), fila, columna - len(lexema))
-                        )
                         pass
                     elif self.isSimboloValido(ascii):
-                        self.tokens_reconocidos.append(
-                            Token("Entero", int(lexema), fila, columna - len(lexema))
-                        )
-                        lexema = ""
                         lexema += caracter
                         estado = 10
                         estado_anterior = 0
@@ -109,9 +107,9 @@ class Analizador:
                         self.errores.append(
                             Error(caracter, "Léxico", columna - len(lexema), fila)
                         )
-                    # Reinicio del lexema
-                    lexema = ""
-                    estado = 0
+                        # Reinicio del lexema
+                        lexema = ""
+                        estado = 0
 
             elif estado == 4:
                 if caracter.isdigit():
@@ -119,16 +117,14 @@ class Analizador:
                     estado = 4
                     estado_anterior = 4
                 else:
+                    self.tokens_reconocidos.append(
+                        Token("Decimal", float(lexema), fila, columna - len(lexema))
+                    )
+                    lexema = ""
+                    estado = 0
                     if ascii == 9 or ascii == 10 or ascii == 32:
-                        self.tokens_reconocidos.append(
-                            Token("Decimal", float(lexema), fila, columna - len(lexema))
-                        )
                         pass
                     elif self.isSimboloValido(ascii):
-                        self.tokens_reconocidos.append(
-                            Token("Decimal", float(lexema), fila, columna - len(lexema))
-                        )
-                        lexema = ""
                         lexema += caracter
                         estado = 10
                         estado_anterior = 0
@@ -140,9 +136,9 @@ class Analizador:
                         self.errores.append(
                             Error(caracter, "Léxico", columna - len(lexema), fila)
                         )
-                    # Reinicio del lexema
-                    lexema = ""
-                    estado = 0
+                        # Reinicio del lexema
+                        lexema = ""
+                        estado = 0
 
             elif estado == 10:
                 if estado_anterior == 0 or estado_anterior == 2:
