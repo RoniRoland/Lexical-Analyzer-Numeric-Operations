@@ -200,7 +200,7 @@ class App:
 
             if tipoOperacion == '"suma"':
                 resultado = numero1 + numero2
-                print(numero1, "+", numero2, "=", resultado)
+                # print(numero1, "+", numero2, "=", resultado)
             elif tipoOperacion == '"resta"':
                 resultado = numero1 - numero2
                 # print(numero1, "-", numero2, "=", resultado)
@@ -210,7 +210,6 @@ class App:
                 resultado = numero1 / numero2
             elif tipoOperacion == '"potencia"':
                 resultado = numero1**numero2
-
             elif tipoOperacion == '"mod"':
                 resultado = numero1 % numero2
 
@@ -275,10 +274,10 @@ class App:
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
 
-                self.text_area.insert(
-                    tk.END,
-                    "--------------------------- OPERACIONES ---------------------------\n",
-                )
+            self.text_area.insert(
+                tk.END,
+                "--------------------------- OPERACIONES ---------------------------\n",
+            )
             while True:
                 if len(lista) == 0:
                     break
