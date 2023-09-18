@@ -274,35 +274,6 @@ class App:
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
 
-            self.text_area.insert(
-                tk.END,
-                "--------------------------- OPERACIONES ---------------------------\n",
-            )
-            while True:
-                if len(lista) == 0:
-                    break
-
-                if estado == "operaciones":
-                    (resultado, lista) = self.reconocerOperacion(lista)
-
-                    contador += 1
-                    # print("Resultado operación", contador, ":", resultado)
-                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
-                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
-
-                    if lista[0].lexema == "]":  # Terminan las operaciones
-                        estado = "configuraciones"
-                        lista = lista[
-                            2:
-                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
-                    else:  # Viene otra operación
-                        lista = lista[
-                            1:
-                        ]  # Se quita el token coma que separa la sig operación
-                elif estado == "configuraciones":
-                    break  # Termina porque configuraciones es lo último
-
-            # Muestra el mensaje de análisis completado correctamente
             messagebox.showinfo(
                 "Análisis Completado", "El análisis se ha completado correctamente."
             )
@@ -413,8 +384,52 @@ class App:
             )
 
     def reporte(self):
-        # Aquí iría el código para la opción "reportes"
-        pass
+        global lineas
+        lineas = ""
+        if self.file_path:
+            with open(self.file_path, "r") as archivo:
+                for i in archivo.readlines():
+                    lineas += i
+            self.text_area.delete("1.0", tk.END)  # limpia el área de texto
+            self.text_area.insert(tk.END, lineas)
+
+            # Ahora, puedes crear una instancia de Analizador con el contenido del archivo
+            lexer = Analizador(lineas)
+            lexer.analizar()
+            lista = lexer.tokens_reconocidos[4:]
+            estado = "operaciones"
+            contador = 0
+
+            # Limpia el área de texto antes de mostrar los resultados
+            self.text_area.delete("1.0", tk.END)
+
+            self.text_area.insert(
+                tk.END,
+                "--------------------------- OPERACIONES ---------------------------\n",
+            )
+            while True:
+                if len(lista) == 0:
+                    break
+
+                if estado == "operaciones":
+                    (resultado, lista) = self.reconocerOperacion(lista)
+
+                    contador += 1
+                    # print("Resultado operación", contador, ":", resultado)
+                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
+                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
+
+                    if lista[0].lexema == "]":  # Terminan las operaciones
+                        estado = "configuraciones"
+                        lista = lista[
+                            2:
+                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
+                    else:  # Viene otra operación
+                        lista = lista[
+                            1:
+                        ]  # Se quita el token coma que separa la sig operación
+                elif estado == "configuraciones":
+                    break  # Termina porque configuraciones es lo último
 
     def salir(self):
         # Cierra la ventana principal
