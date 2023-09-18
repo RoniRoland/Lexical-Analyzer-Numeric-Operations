@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from analizador import Analizador
+import math
 
 
 class App:
@@ -173,6 +174,63 @@ class App:
             self.ventana_principal.title(self.file_path)
             self.guardar()
 
+    def reconocerOperacion(self, lista):
+        resultado = 0
+        tipoOperacion = lista[3].lexema
+        (numero1, lista) = self.obtenerValor(lista[7:])
+
+        if lista[0].lexema == ",":  # Viene otro valor
+            (numero2, lista) = self.obtenerValor(lista[3:])
+
+            if tipoOperacion == '"suma"':
+                resultado = numero1 + numero2
+                print(numero1, "+", numero2, "=", resultado)
+            elif tipoOperacion == '"resta"':
+                resultado = numero1 - numero2
+                # print(numero1, "-", numero2, "=", resultado)
+            elif tipoOperacion == '"multiplicacion"':
+                resultado = numero1 * numero2
+            elif tipoOperacion == '"division"':
+                resultado = numero1 / numero2
+            elif tipoOperacion == '"potencia"':
+                resultado = numero1**numero2
+
+            elif tipoOperacion == '"mod"':
+                resultado = numero1 % numero2
+
+        else:  # Viene solo 1 valor
+            if tipoOperacion == '"raiz"':
+                resultado = math.sqrt(numero1)
+            elif tipoOperacion == '"inverso"':
+                resultado = 1 / numero1
+            elif tipoOperacion == '"seno"':
+                radianes = math.radians(numero1)
+                resultado = math.sin(radianes)
+            elif tipoOperacion == '"coseno"':
+                radianes = math.radians(numero1)
+                resultado = math.cos(radianes)
+            elif tipoOperacion == '"tangente"':
+                radianes = math.radians(numero1)
+                resultado = math.tan(radianes)
+
+        # En la lista se retira la llave que cierra la operación
+        return (resultado, lista[1:])
+
+    def obtenerValor(self, lista):
+        numeroFinal = 0
+        listaNueva = []
+        try:  # si guardaron el tipo de token no es necesario el try except, sería solo un IF
+            numeroFinal = float(lista[0].lexema)
+            listaNueva = lista[1:]
+        except:  # Operacion anidada
+            # Estructura de una anidada: [ { operacion, valor1, valor2 } ]
+            # Para enviarlo como operación primero se quita el corchete de apertura
+            (numeroFinal, lista) = self.reconocerOperacion(lista[1:])
+            # Luego se quita el corchete de cierre
+            listaNueva = lista[1:]
+
+        return (numeroFinal, listaNueva)
+
     def analizar(self):
         global lineas
         lineas = ""
@@ -186,6 +244,9 @@ class App:
             # Ahora, puedes crear una instancia de Analizador con el contenido del archivo
             lexer = Analizador(lineas)
             lexer.analizar()
+            lista = lexer.tokens_reconocidos[4:]
+            estado = "operaciones"
+            contador = 0
 
             # Limpia el área de texto antes de mostrar los resultados
             self.text_area.delete("1.0", tk.END)
@@ -197,6 +258,35 @@ class App:
             )
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
+
+            self.text_area.insert(
+                tk.END,
+                "--------------------------- OPERACIONES ---------------------------\n",
+            )
+
+            while True:
+                if len(lista) == 0:
+                    break
+
+                if estado == "operaciones":
+                    (resultado, lista) = self.reconocerOperacion(lista)
+
+                    contador += 1
+                    # print("Resultado operación", contador, ":", resultado)
+                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
+                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
+
+                    if lista[0].lexema == "]":  # Terminan las operaciones
+                        estado = "configuraciones"
+                        lista = lista[
+                            2:
+                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
+                    else:  # Viene otra operación
+                        lista = lista[
+                            1:
+                        ]  # Se quita el token coma que separa la sig operación
+                elif estado == "configuraciones":
+                    break  # Termina porque configuraciones es lo último
 
     def errores(self):
         global lineas
