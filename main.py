@@ -274,6 +274,35 @@ class App:
             )
             for token in lexer.tokens_reconocidos:
                 self.text_area.insert(tk.END, str(token) + "\n")
+
+                self.text_area.insert(
+                    tk.END,
+                    "--------------------------- OPERACIONES ---------------------------\n",
+                )
+            while True:
+                if len(lista) == 0:
+                    break
+
+                if estado == "operaciones":
+                    (resultado, lista) = self.reconocerOperacion(lista)
+
+                    contador += 1
+                    # print("Resultado operación", contador, ":", resultado)
+                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
+                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
+
+                    if lista[0].lexema == "]":  # Terminan las operaciones
+                        estado = "configuraciones"
+                        lista = lista[
+                            2:
+                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
+                    else:  # Viene otra operación
+                        lista = lista[
+                            1:
+                        ]  # Se quita el token coma que separa la sig operación
+                elif estado == "configuraciones":
+                    break  # Termina porque configuraciones es lo último
+
             # Muestra el mensaje de análisis completado correctamente
             messagebox.showinfo(
                 "Análisis Completado", "El análisis se ha completado correctamente."
@@ -284,64 +313,6 @@ class App:
                 "Por favor, cargue un archivo antes de realizar el análisis.",
             )
             return  # Salir de la función si no hay archivo cargado
-
-            self.text_area.insert(
-                tk.END,
-                "--------------------------- OPERACIONES ---------------------------\n",
-            )
-
-            while True:
-                if len(lista) == 0:
-                    break
-
-                if estado == "operaciones":
-                    (resultado, lista) = self.reconocerOperacion(lista)
-
-                    contador += 1
-                    # print("Resultado operación", contador, ":", resultado)
-                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
-                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
-
-                    if lista[0].lexema == "]":  # Terminan las operaciones
-                        estado = "configuraciones"
-                        lista = lista[
-                            2:
-                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
-                    else:  # Viene otra operación
-                        lista = lista[
-                            1:
-                        ]  # Se quita el token coma que separa la sig operación
-                elif estado == "configuraciones":
-                    break  # Termina porque configuraciones es lo último
-
-            self.text_area.insert(
-                tk.END,
-                "--------------------------- OPERACIONES ---------------------------\n",
-            )
-
-            while True:
-                if len(lista) == 0:
-                    break
-
-                if estado == "operaciones":
-                    (resultado, lista) = self.reconocerOperacion(lista)
-
-                    contador += 1
-                    # print("Resultado operación", contador, ":", resultado)
-                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
-                    self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
-
-                    if lista[0].lexema == "]":  # Terminan las operaciones
-                        estado = "configuraciones"
-                        lista = lista[
-                            2:
-                        ]  # Se quita el token con el corchete de cierre la lista de operaciones y la coma
-                    else:  # Viene otra operación
-                        lista = lista[
-                            1:
-                        ]  # Se quita el token coma que separa la sig operación
-                elif estado == "configuraciones":
-                    break  # Termina porque configuraciones es lo último
 
     def errores(self):
         global lineas
