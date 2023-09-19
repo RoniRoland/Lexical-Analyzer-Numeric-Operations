@@ -408,6 +408,7 @@ class App:
                 "--------------------------- OPERACIONES ---------------------------\n",
             )
             while True:
+                tipoOperacion = lista[3].lexema.strip('"').upper()
                 if len(lista) == 0:
                     break
 
@@ -416,7 +417,7 @@ class App:
 
                     contador += 1
                     # print("Resultado operación", contador, ":", resultado)
-                    resultado_str = f"Resultado operación {contador}: {resultado}\n"
+                    resultado_str = f"Resultado operación {contador} ---> {tipoOperacion} = {resultado}\n"
                     self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
 
                     if lista[0].lexema == "]":  # Terminan las operaciones
