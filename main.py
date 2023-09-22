@@ -169,16 +169,19 @@ class App:
             )
         else:
             # Muestra un mensaje de advertencia si no hay archivo abierto
-            messagebox.showwarning(
+            messagebox.showerror(
                 "Archivo no seleccionado",
                 "Por favor, abra un archivo antes de guardar.",
             )
 
     def guardar_como(self):
-        formatos = (
-            ("form files", ".json"),
-            ("form files", ".txt"),
-        )
+        if self.file_path is None:
+            # Si no hay archivo abierto, muestra un mensaje de error
+            messagebox.showerror(
+                "Error", "Debes abrir un archivo antes de guardar como."
+            )
+            return
+        formatos = (("JSON files", "*.json"),)
         file_path = filedialog.asksaveasfilename(
             defaultextension=".txt", filetypes=formatos
         )
@@ -231,7 +234,7 @@ class App:
     def obtenerValor(self, lista):
         numeroFinal = 0
         listaNueva = []
-        try:  # si guardaron el tipo de token no es necesario el try except, sería solo un IF
+        try:
             numeroFinal = float(lista[0].lexema)
             listaNueva = lista[1:]
         except:  # Operacion anidada
@@ -256,9 +259,6 @@ class App:
             # Ahora, puedes crear una instancia de Analizador con el contenido del archivo
             lexer = Analizador(lineas)
             lexer.analizar()
-            lista = lexer.tokens_reconocidos[4:]
-            estado = "operaciones"
-            contador = 0
 
             # Limpia el área de texto antes de mostrar los resultados
             self.text_area.delete("1.0", tk.END)
@@ -275,7 +275,7 @@ class App:
                 "Análisis Completado", "El análisis se ha completado correctamente."
             )
         else:
-            messagebox.showwarning(
+            messagebox.showerror(
                 "Archivo no cargado",
                 "Por favor, cargue un archivo antes de realizar el análisis.",
             )
@@ -375,9 +375,9 @@ class App:
             self.text_area.insert(tk.END, resultados_json)
 
         else:
-            messagebox.showwarning(
+            messagebox.showerror(
                 "Archivo no seleccionado",
-                "Por favor, seleccione un archivo antes de continuar.",
+                "Por favor, seleccione un archivo antes de verificar los errores.",
             )
 
     def reporte(self):
@@ -413,7 +413,6 @@ class App:
                     (resultado, lista) = self.reconocerOperacion(lista)
 
                     contador += 1
-                    # print("Resultado operación", contador, ":", resultado)
                     resultado_str = f"Resultado operación {contador} ---> {tipoOperacion} = {resultado}\n"
                     self.text_area.insert(tk.END, resultado_str)  # Mostrar resultado
 
@@ -428,6 +427,11 @@ class App:
                         ]  # Se quita el token coma que separa la sig operación
                 elif estado == "configuraciones":
                     break  # Termina porque configuraciones es lo último
+        else:
+            messagebox.showerror(
+                "Archivo no seleccionado",
+                "Por favor, seleccione un archivo antes de verificar el reporte.",
+            )
 
     def salir(self):
         # Cierra la ventana principal
