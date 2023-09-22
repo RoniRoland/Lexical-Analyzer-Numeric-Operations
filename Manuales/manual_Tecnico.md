@@ -84,11 +84,12 @@ Al seleccionar la opción "Reporte", el programa generará un informe con los re
 ## Guardar y Guardar Como
 Las opciones "Guardar" y "Guardar Como" permiten guardar el contenido actual en el archivo abierto o en un nuevo archivo, respectivamente.
 
+
+## AFD del analizar lexico
+
+![AFD_imagen](/assets/images/afd.png)
+
 # Detalles de Implementación
 El programa utiliza la biblioteca Tkinter para crear la interfaz gráfica de usuario. La lógica del analizador léxico se encuentra en el archivo `analizador.py`. Los tokens y errores léxicos se representan mediante las clases `Token` y `Error` en los archivos `Token.py` y `error.py`.
 
 La aplicación realiza el análisis léxico utilizando un autómata finito determinista (AFD) para reconocer tokens. Se pueden reconocer enteros, números decimales, cadenas delimitadas por comillas dobles y varios símbolos especiales.
-
-## AFD del analizar lexico
-
-![AFD_imagen](/assets/images/AFD.png)
