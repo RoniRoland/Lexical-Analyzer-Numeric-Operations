@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 
 class App:
-    ANCHO = 710
+    ANCHO = 715
     ALTO = 1189
 
     def __init__(self):
