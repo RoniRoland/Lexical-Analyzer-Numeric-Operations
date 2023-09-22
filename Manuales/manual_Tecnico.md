@@ -91,4 +91,4 @@ La aplicación realiza el análisis léxico utilizando un autómata finito deter
 
 ## AFD del analizar lexico
 
-![AFD_imagen]()
+![AFD_imagen](/assets/images/AFD.png)
