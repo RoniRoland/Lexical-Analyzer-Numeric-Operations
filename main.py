@@ -18,7 +18,9 @@ class App:
 
         self.text_area = tk.Text(self.ventana_principal)
         self.text_area.pack(fill=tk.BOTH, expand=True, side="right")
-        self.text_area.configure(background="#23262e", foreground="white")
+        self.text_area.configure(
+            background="#23262e", foreground="white", insertbackground="white"
+        )
         self.file_path = None
 
         # Crear el marco para los botones de "Archivo"
@@ -266,10 +268,16 @@ class App:
             # Muestra los tokens en el área de texto
             self.text_area.insert(
                 tk.END,
-                "--------------------------- Tokens ---------------------------\n",
+                "\n*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-* Tokens *-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-**\n",
+            )
+            self.text_area.insert(
+                tk.END,
+                "\n",
             )
             for token in lexer.tokens_reconocidos:
-                self.text_area.insert(tk.END, str(token) + "\n")
+                self.text_area.insert(
+                    tk.END, "============> " + str(token) + " <============" + "\n"
+                )
 
             messagebox.showinfo(
                 "Análisis Completado", "El análisis se ha completado correctamente."
@@ -301,7 +309,11 @@ class App:
             # Muestra los errores en el área de texto
             self.text_area.insert(
                 tk.END,
-                "--------------------------- Errores ---------------------------\n",
+                "\n*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*- Errores *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-**-**-*\n",
+            )
+            self.text_area.insert(
+                tk.END,
+                "\n",
             )
             for error in lexer.errores:
                 self.text_area.insert(tk.END, str(error) + "\n")
@@ -368,7 +380,11 @@ class App:
             # Muestra el contenido de RESULTADOS.json en el área de texto
             self.text_area.insert(
                 tk.END,
-                "------------------------ RESULTADOS.JSON -----------------------\n",
+                "\n*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*- RESULTADOS.JSON *-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-\n",
+            )
+            self.text_area.insert(
+                tk.END,
+                "\n",
             )
             with open("RESULTADOS.json", "r") as resultados_json_file:
                 resultados_json = resultados_json_file.read()
@@ -402,7 +418,11 @@ class App:
 
             self.text_area.insert(
                 tk.END,
-                "--------------------------- OPERACIONES ---------------------------\n",
+                "*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*- OPERACIONES *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-**-*\n",
+            )
+            self.text_area.insert(
+                tk.END,
+                "\n",
             )
             while True:
                 tipoOperacion = lista[3].lexema.strip('"').upper()
