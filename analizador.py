@@ -87,7 +87,7 @@ class Analizador:
                     lexema += caracter
                     estado = 4
                     estado_anterior = 2
-                else:  # Es estado de aceptación entonces se guarda token
+                else:
                     self.tokens_reconocidos.append(
                         Token("Entero", int(lexema), fila, columna - len(lexema))
                     )
@@ -195,6 +195,3 @@ class Analizador:
                 continue
 
             columna += 1
-
-
-# Validar fin del texto
