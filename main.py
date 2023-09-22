@@ -136,10 +136,7 @@ class App:
     def abrir(self):
         global lineas
         lineas = ""
-        formatos = (
-            ("form files", ".json"),
-            ("form files", ".txt"),
-        )
+        formatos = (("JSON files", "*.json"),)
         self.file_path = None
         self.file_path = filedialog.askopenfilename(
             defaultextension=".txt", filetypes=formatos
