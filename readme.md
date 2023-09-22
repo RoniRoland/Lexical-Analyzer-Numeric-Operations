@@ -1,2 +1,2 @@
-Poryecto 1 LFP A-
-Aplicación Numérica con Análisis Léxico 
+Proyecto 1 LFP A-
+<p> Aplicación Numérica con Análisis Léxico </p>
