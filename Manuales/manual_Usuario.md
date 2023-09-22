@@ -75,6 +75,12 @@ La interfaz de usuario proporciona una forma fácil de cargar archivos de texto,
 
 ## Guardar o Guardar Como
 - Utilice las opciones "Guardar" o "Guardar Como" para guardar el contenido actual en el archivo abierto o en un nuevo archivo, respectivamente.
+- Guardar:
+![Interfaz_guardar](./assets/images/inter-guardar.png)
+- Guardar como:
+![Interfaz_guardar](./assets/images/inter-gc0.png)
+![Interfaz_guardar](./assets/images/inter-gc.png)
+![Interfaz_guardar](./assets/images/inter-gc2.png)
 
 
 ## Salir del Programa
