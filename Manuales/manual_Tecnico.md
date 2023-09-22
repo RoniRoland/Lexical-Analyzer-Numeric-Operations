@@ -69,6 +69,9 @@ La interfaz gráfica de usuario consta de una ventana principal con varias opcio
 - Reporte: Genera un informe con los resultados de las operaciones matemáticas y muestra el resultado en el área de texto.
 - Salir: Cierra la aplicación.
 
+![Interfaz_grafica](./assets/images/inter.png)
+
+
 ## Carga de Archivos
 Al seleccionar la opción "Abrir", se abrirá un cuadro de diálogo que le permitirá seleccionar un archivo de texto (.txt) o un archivo JSON (.json). El contenido del archivo se mostrará en el área de texto de la aplicación.
 
@@ -93,3 +96,8 @@ Las opciones "Guardar" y "Guardar Como" permiten guardar el contenido actual en 
 El programa utiliza la biblioteca Tkinter para crear la interfaz gráfica de usuario. La lógica del analizador léxico se encuentra en el archivo `analizador.py`. Los tokens y errores léxicos se representan mediante las clases `Token` y `Error` en los archivos `Token.py` y `error.py`.
 
 La aplicación realiza el análisis léxico utilizando un autómata finito determinista (AFD) para reconocer tokens. Se pueden reconocer enteros, números decimales, cadenas delimitadas por comillas dobles y varios símbolos especiales.
+
+## Conclusiones
+Este manual técnico proporciona información detallada sobre el programa desarrollado en Python utilizando Tkinter para crear una interfaz gráfica de usuario. El programa permite cargar, analizar y trabajar con archivos de texto que contienen operaciones matemáticas, además de generar informes de tokens y errores léxicos.
+
+El análisis léxico se basa en un autómata finito determinista (AFD) que reconoce tokens y errores léxicos en el texto de entrada.
