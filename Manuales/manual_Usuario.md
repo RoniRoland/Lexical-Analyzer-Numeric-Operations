@@ -62,7 +62,7 @@ La interfaz de usuario proporciona una forma fácil de cargar archivos de texto,
 ![Interfaz_err](./assets/images/inter-err.png)
 
 4. Si hay errores creara un archivo json llamado RESULTADOS.json con los errores y tambien se mostrara en el cuadro de texto.
-![Interfaz_err](./assets/images/inter-err.png)
+![Interfaz_err](./assets/images/inter-err1.png)
 ![Interfaz_err](./assets/images/errjson.png)
 
 
