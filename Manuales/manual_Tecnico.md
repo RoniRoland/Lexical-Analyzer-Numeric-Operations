@@ -12,19 +12,15 @@ SEGUNDO SEMESTRE 2023
 
 AUX. ENRIQUE ALEJANDRO PINULA QUIÑONEZ
 
-
-
-
-<p align="center"> **MANUAL TECNICO** </p>
-
-
-
 Edgar Rolando Ramirez Lopez
 
 201212891
 
 Guatemala, septiembre del 2023
 
+
+
+# <p align="center"> **MANUAL TECNICO** </p>
 
 # Introduccion
 
