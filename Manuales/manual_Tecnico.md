@@ -87,7 +87,7 @@ Las opciones "Guardar" y "Guardar Como" permiten guardar el contenido actual en 
 
 ## AFD del analizar lexico
 
-![AFD_imagen](/assets/images/afd.png)
+![AFD_imagen](manual_Tecnico.md/assets/images/afd.png)
 
 # Detalles de Implementación
 El programa utiliza la biblioteca Tkinter para crear la interfaz gráfica de usuario. La lógica del analizador léxico se encuentra en el archivo `analizador.py`. Los tokens y errores léxicos se representan mediante las clases `Token` y `Error` en los archivos `Token.py` y `error.py`.
