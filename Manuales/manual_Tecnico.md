@@ -69,7 +69,7 @@ La interfaz gráfica de usuario consta de una ventana principal con varias opcio
 
 
 ## Carga de Archivos
-Al seleccionar la opción "Abrir", se abrirá un cuadro de diálogo que le permitirá seleccionar un archivo de texto (.txt) o un archivo JSON (.json). El contenido del archivo se mostrará en el área de texto de la aplicación.
+Al seleccionar la opción "Abrir", se abrirá un cuadro de diálogo que le permitirá seleccionar un archivo JSON (.json). El contenido del archivo se mostrará en el área de texto de la aplicación.
 
 ## Análisis Léxico
 Al seleccionar la opción "Analizar", el programa realizará un análisis léxico del contenido del archivo cargado y mostrará los tokens reconocidos en el área de texto. Los tokens se mostrarán con su nombre, lexema, fila y columna.
